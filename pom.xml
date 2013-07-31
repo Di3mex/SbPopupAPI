@@ -26,7 +26,7 @@
     <!-- Project properties. -->
     <groupId>de.diemex</groupId>
     <artifactId>SBPopupAPI</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
     <name>SBPopupAPI</name>
     <description>Can display short messages in the scoreboard</description>
     <url>http://dev.bukkit.org/server-mods/fun-hard-mode</url>
@@ -90,7 +90,7 @@
     <distributionManagement>
         <repository>
             <id>ehm-release</id>
-            <name>extrahardmode.com Releases</name>
+                <name>extrahardmode.com Releases</name>
             <url>http://extrahardmode.com:8081/nexus/content/repositories/bukkit-plugins/</url>
         </repository>
         <snapshotRepository>

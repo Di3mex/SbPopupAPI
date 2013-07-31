@@ -1,6 +1,7 @@
 package de.diemex.sbpopupapi;
 
 
+import de.diemex.sbpopupapi.msgtype.IMsgType;
 import org.apache.commons.lang.Validate;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class SBPopup
     /**
      * The type of Popup, holding information about the length and the titleColor
      */
-    private MsgType type;
+    private IMsgType type;
 
     /**
      * Title of the message
@@ -35,7 +36,7 @@ public class SBPopup
      * @param title title of the message
      * @param msg   msg as String, will be splitted into lines
      */
-    public SBPopup(MsgType type, String title, String msg)
+    public SBPopup(IMsgType type, String title, String msg)
     {
         this(type, title, StringUtil.getLines(msg, type.getTextColor()));
     }
@@ -48,7 +49,7 @@ public class SBPopup
      * @param title title of the message
      * @param msg   msg as String, will be splitted into lines
      */
-    public SBPopup(MsgType type, String title, List<String> msg)
+    public SBPopup(IMsgType type, String title, List<String> msg)
     {
         for (String line : msg)
             Validate.isTrue(line.length() <= 16, "Scoreboards have a max of 16 characters per line. Given line was "
@@ -64,7 +65,7 @@ public class SBPopup
      *
      * @return the type
      */
-    public MsgType getType()
+    public IMsgType getType()
     {
         return type;
     }

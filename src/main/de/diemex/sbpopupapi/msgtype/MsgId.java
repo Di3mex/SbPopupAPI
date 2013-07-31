@@ -1,4 +1,4 @@
-package de.diemex.sbpopupapi;
+package de.diemex.sbpopupapi.msgtype;
 
 
 /**

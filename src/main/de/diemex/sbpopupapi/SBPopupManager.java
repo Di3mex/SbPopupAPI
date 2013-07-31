@@ -1,6 +1,9 @@
 package de.diemex.sbpopupapi;
 
 
+import de.diemex.sbpopupapi.msgtype.DynamicMsgType;
+import de.diemex.sbpopupapi.msgtype.IMsgType;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -55,11 +58,11 @@ public class SBPopupManager implements Listener
      * @param player          player for whom to show it
      * @param type            type defines color and length
      * @param scoreboardTitle scoreboard title is used
-     * @param msg             message text will be wrapped to fit the scoreboard limitations
+     * @param msg             message text already cut into lines with length <= 16
      *
      * @return a boolean for whatever reason I cant remember
      */
-    public boolean showPopup(final String player, final MsgType type, final String scoreboardTitle, final List<String> msg)
+    public boolean showPopup(final String player, final IMsgType type, final String scoreboardTitle, final List<String> msg)
     {
         SBPopup popup = new SBPopup(type, scoreboardTitle, msg);
 
@@ -67,7 +70,7 @@ public class SBPopupManager implements Listener
 
         final int id = store.displayMessage(popup);
 
-        if (!type.hasUniqueIdentifier())
+        if (type.getLength() <= 0)
             removeAfter(id, store, type.getLength());
 
         return true;
@@ -84,10 +87,65 @@ public class SBPopupManager implements Listener
      *
      * @return a boolean for whatever reason I cant remember
      */
-    public boolean showPopup(final String player, final MsgType type, final String scoreboardTitle, final String msg)
+    public boolean showPopup(final String player, final IMsgType type, final String scoreboardTitle, final String msg)
     {
         return showPopup(player, type, scoreboardTitle, StringUtil.getLines(msg, type.getTextColor()));
     }
+
+
+    /**
+     * Shows a popup in the scoreboard. Breaks msg into lines automatically, keep in mind Color codes reduce line size.
+     *
+     * @param player          player for whom to show it
+     * @param length          how long in ticks the message should display
+     * @param scoreboardTitle scoreboard title is used
+     * @param msg             message text will be wrapped to fit the scoreboard limitations
+     *
+     * @return a boolean for whatever reason I cant remember
+     */
+    public boolean showPopup(final String player, int length, final String scoreboardTitle, final String msg)
+    {
+        return showPopup(player, new DynamicMsgType(null, length, null, null), scoreboardTitle, StringUtil.getLines(msg));
+    }
+
+
+    /**
+     * Shows a popup in the scoreboard. Breaks msg into lines automatically, keep in mind Color codes reduce line size.
+     *
+     * @param player          player for whom to show it
+     * @param identifier      ídentifier of this message, message can be removed by its identifier later
+     * @param length          how long in ticks the message should display
+     * @param titleColor      color of the title line
+     * @param textColor       general textcolor of the message
+     * @param scoreboardTitle scoreboard title is used
+     * @param msg             message text will be wrapped to fit the scoreboard limitations
+     *
+     * @return a boolean for whatever reason I cant remember
+     */
+    public boolean showPopup(final String player, final String identifier, int length, ChatColor titleColor, ChatColor textColor, final String scoreboardTitle, final String msg)
+    {
+        return showPopup(player, new DynamicMsgType(identifier, length, titleColor, textColor), scoreboardTitle, StringUtil.getLines(msg, textColor));
+    }
+
+
+    /**
+     * Shows a popup in the scoreboard. Breaks msg into lines automatically, keep in mind Color codes reduce line size.
+     *
+     * @param player          player for whom to show it
+     * @param identifier      ídentifier of this message, message can be removed by its identifier later
+     * @param length          how long in ticks the message should display
+     * @param titleColor      color of the title line
+     * @param textColor       general textcolor of the message
+     * @param scoreboardTitle scoreboard title is used
+     * @param msg             message text already cut into lines with length <= 16
+     *
+     * @return a boolean for whatever reason I cant remember
+     */
+    public boolean showPopup(final String player, final String identifier, int length, ChatColor titleColor, ChatColor textColor, final String scoreboardTitle, final List<String> msg)
+    {
+        return showPopup(player, new DynamicMsgType(identifier, length, titleColor, textColor), scoreboardTitle, msg);
+    }
+
 
 
     /**
@@ -100,7 +158,7 @@ public class SBPopupManager implements Listener
      *
      * @return if successful
      */
-    public boolean broadcastPopup(MsgType type, final String scoreboardTitle, final List<String> msg)
+    public boolean broadcastPopup(IMsgType type, final String scoreboardTitle, final List<String> msg)
     {
         SBPopup popup = new SBPopup(type, scoreboardTitle, msg);
 
@@ -127,7 +185,7 @@ public class SBPopupManager implements Listener
      *
      * @return if successful
      */
-    public boolean broadcastPopup(MsgType type, final String scoreboardTitle, final String msg)
+    public boolean broadcastPopup(IMsgType type, final String scoreboardTitle, final String msg)
     {
         return broadcastPopup(type, scoreboardTitle, StringUtil.getLines(msg, type.getTextColor()));
     }

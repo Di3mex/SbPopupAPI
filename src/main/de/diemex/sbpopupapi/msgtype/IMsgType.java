@@ -1,4 +1,4 @@
-package de.diemex.sbpopupapi;
+package de.diemex.sbpopupapi.msgtype;
 
 
 import org.bukkit.ChatColor;
@@ -8,7 +8,7 @@ import org.bukkit.ChatColor;
  *
  * @author Diemex
  */
-public interface MsgType
+public interface IMsgType
 {
     /**
      * Does this message have an identifier with which we can identify this message and remove it later
@@ -20,12 +20,12 @@ public interface MsgType
     /**
      * Get the unique identifier of the message if set
      *
-     * @return identifier if set or null, test if its set with {@link de.diemex.sbpopupapi.MsgType#hasUniqueIdentifier()}
+     * @return identifier if set or null, test if its set with {@link IMsgType#hasUniqueIdentifier()}
      */
     public String getUniqueIdentifier();
 
     /**
-     * How long (ticks) should message be displayed
+     * How long (ticks) should message be displayed. If length <= 0, message can only be removed via its identifier.
      *
      * @return length in ticks
      */
@@ -37,13 +37,6 @@ public interface MsgType
      * @return color as ChatColor
      */
     public ChatColor getTitleColor();
-
-    /**
-     * Set the color of all lines, only supports a single color because we loose 2 chars per Color
-     *
-     * @param color color to set
-     */
-    public void setTextColor(ChatColor color);
 
     /**
      * Get the TextColor of the message

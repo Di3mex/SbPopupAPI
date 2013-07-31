@@ -1,4 +1,4 @@
-package de.diemex.sbpopupapi;
+package de.diemex.sbpopupapi.msgtype;
 
 
 import org.bukkit.ChatColor;
@@ -6,16 +6,16 @@ import org.bukkit.ChatColor;
 /**
  * @author Diemex
  */
-public enum MessageType implements MsgType
+public enum DefaultMsgType implements IMsgType
 {
     /**
      * Notifications are shown shortly
      */
-    NOTFICATION(200, ChatColor.YELLOW),
+    NOTIFICATION(300, ChatColor.YELLOW),
     /**
      * Warnings are shown long
      */
-    WARNING(500, ChatColor.RED);
+    WARNING(1000, ChatColor.RED);
 
     private final int length;
 
@@ -30,7 +30,7 @@ public enum MessageType implements MsgType
      * @param length     how long to show the msg in ticks
      * @param titleColor which color should the title have
      */
-    private MessageType(int length, ChatColor titleColor)
+    private DefaultMsgType(int length, ChatColor titleColor)
     {
         this.length = length;
         this.titleColor = titleColor;
@@ -65,7 +65,6 @@ public enum MessageType implements MsgType
     }
 
 
-    @Override
     public void setTextColor(ChatColor textColor)
     {
         this.textColor = textColor;
