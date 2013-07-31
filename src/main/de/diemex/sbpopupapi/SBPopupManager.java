@@ -70,7 +70,7 @@ public class SBPopupManager implements Listener
 
         final int id = store.displayMessage(popup);
 
-        if (type.getLength() <= 0)
+        if (type.getLength() > 0)
             removeAfter(id, store, type.getLength());
 
         return true;
